@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playbook - Robot Héroe - Sesión 3: ¡Pruebas de Campo!</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333; line-height: 1.6; }
+        .container { max-width: 1000px; margin: auto; padding: 20px; }
+        .header { background-color: #ffa500; color: white; text-align: center; padding: 10px; } /* Orange Accent */
+        .activity { margin-bottom: 20px; }
+        .banner {
+            background-color: #ffa500; /* Orange Accent */
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-weight: bold;
+            /* Added Flexbox for side-by-side layout */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Use details/summary for accordions */
+        details > summary {
+            list-style: none; /* Remove default triangle */
+        }
+        details > summary::-webkit-details-marker {
+            display: none; /* Remove default triangle for Chrome/Safari */
+        }
+        details > summary::marker {
+             display: none; /* Remove default triangle for Firefox */
+        }
+        /* Custom marker logic (optional) */
+        /*
+         details > summary:before {
+            content: '▶ ';
+            margin-right: 5px;
+         }
+         details[open] > summary:before {
+            content: '▼ ';
+         }
+        */
+        .content { display: block; padding: 10px; border: 1px solid #ddd; margin-top: -10px; margin-bottom: 10px; border-top: none;} /* Ensure content is visible by default */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: top;
+        }
+        span[style*="color: red;"] { /* Keep red span for emphasis */
+            font-weight: bold;
+        }
+         ul, ol {
+            margin-top: 0;
+            margin-bottom: 10px;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .time-title { margin-bottom: 20px; text-align: center; font-size: 1.2em; color: #555;}
+        /* Style for Kanban icons */
+        .kanban-icon { font-size: 1.2em; margin: 0 2px; }
+        .kanban-todo { color: #f0ad4e; } /* Yellow/Orange for To Do */
+        .kanban-doing { color: #5bc0de; } /* Blue for Doing */
+        .kanban-test { color: #d9534f; } /* Red for Test */
+        .kanban-done { color: #5cb85c; } /* Green for Done */
+
+        /* Span styles for title and time in banner */
+        .activity-title {
+            flex-grow: 1; /* Allows title to take available space */
+            padding-right: 10px; /* Add some space between title and time */
+        }
+        .activity-time {
+            white-space: nowrap; /* Prevents time from wrapping */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Playbook - Robot Héroe - Sesión 3: ¡Pruebas de Campo! – Ajustando los Sensores del Héroe</h1>
+    </div>
+    <div class="container">
+        <h2 class="time-title">Tiempo efectivo de clase: 40 minutos</h2>
+
+        <!-- Resumen de Sesión -->
+        <details id="activity-0" class="activity">
+            <summary class="banner">
+                <span class="activity-title">📝 Resumen de Sesión</span>
+                <span class="activity-time"></span>
+            </summary>
+            <div class="content">
+                <table>
+                    <tr>
+                        <td style="width: 50%; padding: 10px; border-right: 1px solid #ddd;">
+                            <strong>🎯 Objetivo de la Sesión:</strong>
+                            <ul>
+                                <li>Validar funciones construidas (tareas en "Listo para Probar" 🔬) mediante pruebas sistemáticas.</li>
+                                <li>Identificar y corregir errores (bugs).</li>
+                                <li>Asegurar la funcionalidad básica del prototipo.</li>
+                                <li>Practicar el ciclo iterativo de prueba-corrección.</li>
+                            </ul>
+                            <strong>⏱️ Duración Estimada:</strong> 40 minutos.
+                        </td>
+                        <td style="width: 50%; padding: 10px;">
+                            <strong>🔑 Entregable Clave:</strong>
+                            <ul>
+                                <li>Tareas probadas y movidas a "¡Listo!" (✅) o devueltas a "Haciendo" (⚙️) para corrección.</li>
+                                <li>Resultados de pruebas documentados (por el Tester).</li>
+                                <li>Errores corregidos (por el Ingeniero/a).</li>
+                                <li>Kanban actualizado reflejando el estado real post-pruebas.</li>
+                            </ul>
+                            <strong>🛠️ Materiales Específicos:</strong>
+                             <ul>
+                                <li>Proyector o pantalla interactiva.</li>
+                                <li>Presentación de diapositivas (Diapositivas 1-6 propuestas).</li>
+                                <li>Tableros Kanban de cada equipo (actualizados de la Sesión 2).</li>
+                                <li>Prototipos de Robot Héroe (parcialmente funcionales).</li>
+                                <li>Computadoras con software de programación y código desarrollado.</li>
+                                <li>Espacio de pruebas adecuado (con líneas, obstáculos, etc., según las funciones a probar).</li>
+                                <li>Plan de pruebas diseñado por el Tester en Sesión 2.</li>
+                                <li>Notas/documentación de sesiones anteriores.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </details>
+
+        <!-- Desarrollo de la Sesión -->
+
+        <!-- Actividad 1: ¡Stand-up de Pruebas! -->
+        <details id="activity-1" class="activity">
+            <summary class="banner">
+                 <span class="activity-title">🧪 Actividad 1: ¡Stand-up de Pruebas!</span>
+                 <span class="activity-time">⏰ Tiempo: 5 minutos</span>
+            </summary>
+            <div class="content">
+                <table>
+                    <tr>
+                        <th style="width: 50%;">Acción</th>
+                        <th style="width: 50%;">Diálogo del Maestro</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Paso 1 (1 min):</strong> Iniciar la sesión y presentar el objetivo centrado en pruebas.
+                            <br><em>(<strong>Proyectar Diapositiva 1:</strong> Título Sesión 3 + Objetivo: "¡Pruebas de Campo! Objetivo: Validar funciones, corregir errores y asegurar funcionalidad básica").</em>
+                        </td>
+                        <td>
+                            "¡Hola, equipos! ¡Bienvenidos a la Sesión 3: Pruebas de Campo! Hoy es el día de poner a prueba a nuestros Robots Héroes. Vamos a verificar si lo que construimos funciona como esperamos, encontraremos errores (¡que siempre aparecen!) y los corregiremos."
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Paso 2 (3 min):</strong> Realizar el "Stand-up de Pruebas", enfocado en las tareas listas para probar.
+                            <br><em>(<strong>Proyectar Diapositiva 2:</strong> Stand-up de Pruebas - Foco en columna "Listo para Probar" 🔬 del Kanban. Pregunta clave: ¿Qué tareas vamos a probar hoy? ¿Cuál es el plan de prueba?).</em>
+                            <br>El Tester de cada equipo lidera esta parte.
+                        </td>
+                        <td>
+                            "Empezamos con nuestro 'Stand-up de Pruebas'. Miren sus tableros Kanban, específicamente la columna <strong class='kanban-icon kanban-test'>🔬 Listo para Probar</strong>. Estas son las tareas que los Ingenieros/as marcaron como completadas en la sesión anterior."
+                            <br><br>
+                            "Ahora, <strong>Testers (🧪)</strong>, ¡es su momento! Para cada tarea en <strong class='kanban-icon kanban-test'>🔬 Listo para Probar</strong>, expliquen brevemente a su equipo:"
+                            <br>
+                            "1. ¿Cuál es el plan para probar esta tarea?"
+                            <br>
+                            "2. ¿Qué esperas que haga el robot exactamente?"
+                            <br><br>
+                            "¡Compartan su plan de ataque de pruebas!" <em>(Moderar para que cada Tester explique su plan para las tareas en 🔬).</em>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <strong>Paso 3 (1 min):</strong> Confirmar el enfoque y preparar el espacio de pruebas si es necesario.
+                        </td>
+                        <td>
+                            "¡Excelentes planes, Testers! Todos en el equipo ya saben qué se va a probar y cómo. Ingenieros/as, preparen el código; Arquitectos/as T., atentos a los resultados; Testers, preparen el 'campo de pruebas' si necesitan algo específico (líneas, obstáculos...). ¡Listos para la acción!"
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </details>
+
+        <!-- Actividad 2: ¡Ciclo de Pruebas y Mejoras! -->
+        <details id="activity-2" class="activity">
+            <summary class="banner">
+                 <span class="activity-title">🔄 Actividad 2: ¡Ciclo de Pruebas y Mejoras!</span>
+                 <span class="activity-time">⏰ Tiempo: 30 minutos</span>
+            </summary>
+            <div class="content">
+                <table>
+                    <tr>
+                        <th style="width: 50%;">Acción</th>
+                        <th style="width: 50%;">Diálogo del Maestro</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Paso 1 (2 min):</strong> Explicar el ciclo iterativo de pruebas y corrección, y el rol de cada miembro.
+                            <br><em>(<strong>Proyectar Diapositiva 3:</strong> Ciclo Pruebas y Mejoras - Diagrama simple: Probar 🔬 -> ¿Funciona? -> Sí -> ¡Listo! ✅ | No -> Corregir ⚙️ -> Probar de nuevo 🔬. Indicar rol principal en cada fase).</em>
+                        </td>
+                        <td>
+                            "¡Muy bien, ahora entramos en el 'Ciclo de Pruebas y Mejoras'! Esto es como un juego de detectives y reparadores:"
+                            <br><br>
+                            "1. <strong>Tester (🧪):</strong> Ejecuta las pruebas según el plan para las tareas en <strong class='kanban-icon kanban-test'>🔬 Listo para Probar</strong>. Observa atentamente y documenta: ¿Funcionó como se esperaba? ¿Hubo errores?"
+                            <br>
+                            "2. <strong>Si la prueba PASA:</strong> ¡Genial! El Tester mueve la tarjeta a <strong class='kanban-icon kanban-done'>✅ ¡Listo!</strong>."
+                            <br>
+                            "3. <strong>Si la prueba FALLA:</strong> ¡No pasa nada! El Tester explica el error al Ingeniero/a. La tarjeta vuelve a <strong class='kanban-icon kanban-doing'>⚙️ Haciendo</strong>."
+                            <br>
+                            "4. <strong>Ingeniero/a (💻):</strong> ¡A reparar! Analiza el error reportado por el Tester y corrige el código o la construcción."
+                            <br>
+                            "5. <strong>Cuando el Ingeniero/a cree que lo arregló:</strong> Mueve la tarjeta OTRA VEZ a <strong class='kanban-icon kanban-test'>🔬 Listo para Probar</strong> para que el Tester la vuelva a verificar."
+                            <br>
+                            "6. <strong>Arquitecto/a T. (📐):</strong> ¡Apoyo estratégico! Si un error es muy difícil de encontrar o afecta el diseño general, ayuda a diagnosticarlo. También mantiene el Kanban actualizado y observa si los cambios afectan otras partes."
+                            <br><br>
+                            "¡Este ciclo se repite hasta que las tareas pasen la prueba! ¡Empecemos!"
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Paso 2 (25 min):</strong> Facilitar el ciclo de pruebas y correcciones en los equipos.
+                            <br><em>(<strong>Proyectar Diapositiva 4:</strong> ¡A Probar y Corregir! - Recordatorio visual del ciclo y los roles. Puede incluir iconos de herramientas: Lupa 🔍, Llave inglesa 🔧, Cerebro 🧠).</em>
+                            <br>Circular activamente, observando las pruebas y la resolución de problemas.
+                            <br>Asegurarse de que los Testers documenten resultados (simple check ✔️/❌ y descripción del fallo).
+                            <br>Verificar que las tareas se muevan correctamente en el Kanban según el resultado de la prueba.
+                            <br>Intervenir para ayudar en diagnósticos complejos o conflictos.
+                            <br>Fomentar la comunicación clara entre Tester e Ingeniero/a sobre los errores.
+                        </td>
+                        <td>
+                            <em>(Mientras circulas):</em>
+                            "Tester, ¿cómo va esa prueba? ¿El robot hizo lo que esperabas?"
+                            "¿Documentaste el resultado? Si falló, explícale bien al Ingeniero/a qué pasó."
+                            "Ingeniero/a, ¿entiendes el error reportado? ¿Tienes alguna idea de cómo solucionarlo?"
+                            "Arquitecto/a T., ¿cómo ves el flujo? ¿Hay algún problema que necesite tu visión experta?"
+                            "¡Recuerden mover las tarjetas en el Kanban! Si pasa, a <strong class='kanban-icon kanban-done'>✅ ¡Listo!</strong>; si falla, de vuelta a <strong class='kanban-icon kanban-doing'>⚙️ Haciendo</strong>."
+                            "¡Comunicación clara es clave para arreglar los bugs!"
+                            "¡Muy bien, veo robots moviéndose y código ajustándose!"
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <strong>Paso 3 (3 min):</strong> Integrar explícitamente el Kanban Flow (Ciclo Iterativo) como resumen del proceso.
+                            <br><em>(<strong>Proyectar Diapositiva 5:</strong> Kanban Flow: Ciclo Iterativo - Mostrar el flujo visual clave: Prueba pasa → tarea a ✅ ¡Listo!; Prueba falla → tarea vuelve a ⚙️ Haciendo y se corrige).</em>
+                        </td>
+                        <td>
+                            "Recordemos este flujo clave en nuestro Kanban, ¡es el corazón del ciclo de hoy!"
+                            <br><br>
+                            "Si la <strong>Prueba PASA</strong> --> ¡Felicidades! La tarea se mueve a <strong class='kanban-icon kanban-done'>✅ ¡Listo!</strong>"
+                            <br>
+                            "Si la <strong>Prueba FALLA</strong> --> ¡No hay problema! La tarea vuelve a <strong class='kanban-icon kanban-doing'>⚙️ Haciendo</strong> para que el Ingeniero/a la corrija."
+                            <br><br>
+                            "¡Este ciclo nos ayuda a mejorar nuestro robot paso a paso!"
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </details>
+
+        <!-- Actividad 3: ¡Reporte de Calidad del Héroe! -->
+        <details id="activity-3" class="activity"> <!-- Renumbered from 4 to 3 -->
+            <summary class="banner">
+                 <span class="activity-title">📊 Actividad 3: ¡Reporte de Calidad del Héroe!</span> <!-- Renumbered from 4 to 3 -->
+                 <span class="activity-time">⏰ Tiempo: 5 minutos</span>
+            </summary>
+            <div class="content">
+                <table>
+                     <tr>
+                        <th style="width: 50%;">Acción</th>
+                        <th style="width: 50%;">Diálogo del Maestro</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Paso 1 (3 min):</strong> Reunir a los equipos para un reporte final del estado de calidad.
+                            <br><em>(<strong>Proyectar Diapositiva 6:</strong> Reporte de Calidad - Preguntas: ¿Qué está en "¡Listo!" ✅? ¿Qué errores críticos quedan (en Haciendo ⚙️ o Por Hacer 💡)? + Kanban final).</em>
+                            <br>Pedir a cada equipo que revise su columna "¡Listo!" y comente los errores pendientes más importantes.
+                        </td>
+                        <td>
+                            "¡Equipos, pausa final! Vamos a hacer un rápido 'Reporte de Calidad del Héroe'."
+                            <br><br>
+                            "Miren sus tableros Kanban por última vez hoy. Enfóquense en:"
+                            <br>
+                            "1. La columna <strong class='kanban-icon kanban-done'>✅ ¡Listo!</strong>: ¿Qué tareas lograron superar las pruebas y están terminadas?"
+                            <br>
+                            "2. Las columnas <strong class='kanban-icon kanban-doing'>⚙️ Haciendo</strong> y <strong class='kanban-icon kanban-todo'>💡 Por Hacer</strong>: De las tareas que fallaron o las que quedan, ¿identifican algún error <span style='color: red;'>CRÍTICO</span> que debamos solucionar sí o sí para la próxima sesión?"
+                            <br><br>
+                            "Compartan brevemente: ¿Qué tienen en '¡Listo!'? y ¿Cuál es el error más importante que les queda por resolver?" <em>(Moderar la puesta en común).</em>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <strong>Paso 2 (2 min):</strong> Cierre de la sesión y preparación para la entrega final.
+                        </td>
+                        <td>
+                            "¡Excelente trabajo de pruebas y correcciones hoy! Han sido verdaderos detectives y reparadores de robots."
+                            <br><br>
+                            "Hemos validado funciones, encontrado bugs (¡eso es bueno, significa que estamos aprendiendo!) y hemos avanzado mucho en la calidad de nuestro Robot Héroe."
+                            <br><br>
+                            "La próxima sesión, la Sesión 4, es la ¡Entrega del Prototipo! Haremos los últimos ajustes basados en las pruebas de hoy, verificaremos que todo funcione mínimamente y prepararemos el robot para entregarlo al profesor."
+                            <br><br>
+                            "¡Dejen sus robots y Kanbans listos para la recta final! ¡Nos vemos en la Sesión 4!"
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </details>
+
+    </div> <!-- Fin del container -->
+</body>
+</html>
