@@ -14,34 +14,24 @@
             color: white;
             padding: 10px;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* Adjusted for spacing */
             font-weight: bold;
-            /* Added Flexbox for side-by-side layout */
-            display: flex;
+            list-style: none;
+            display: flex; /* For side-by-side title and time */
             justify-content: space-between;
             align-items: center;
+            border-radius: 5px; /* Rounded corners for banner */
         }
-        /* Use details/summary for accordions */
-        details > summary {
-            list-style: none; /* Remove default triangle */
+        .content { 
+            display: none; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            margin-bottom: 10px; 
+            border-radius: 5px; /* Rounded corners for content */
+            margin-top: -10px; /* Visual connection with banner */
+            padding-top: 20px; /* Avoid text clash */
+            background-color: #fff; /* Ensure content background is white or default */
         }
-        details > summary::-webkit-details-marker {
-            display: none; /* Remove default triangle for Chrome/Safari */
-        }
-        details > summary::marker {
-             display: none; /* Remove default triangle for Firefox */
-        }
-        /* Custom marker logic (optional) */
-        /*
-         details > summary:before {
-            content: '▶ ';
-            margin-right: 5px;
-         }
-         details[open] > summary:before {
-            content: '▼ ';
-         }
-        */
-        .content { display: block; padding: 10px; border: 1px solid #ddd; margin-top: -10px; margin-bottom: 10px; border-top: none;} /* Ensure content is visible by default */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -52,7 +42,7 @@
             text-align: left;
             vertical-align: top;
         }
-        span[style*="color: red;"] { /* Keep red span for emphasis */
+        span[style*="color: red;"] { 
             font-weight: bold;
         }
          ul, ol {
@@ -71,15 +61,49 @@
         .kanban-test { color: #d9534f; } /* Red for Test */
         .kanban-done { color: #5cb85c; } /* Green for Done */
 
-        /* Span styles for title and time in banner */
+        /* Making facilitator instructions clearer */
+        td em, td i { /* Style for italicized facilitator notes */
+            color: #555;
+            font-style: italic;
+            display: block; /* Put notes on new lines */
+            margin-top: 5px;
+        }
+        /* Ensure step <strong> tags render bold */
+        td strong { font-weight: bold; } /* General strong for keywords */
+        td > strong { display: block; margin-bottom: 5px; } /* For step headers */
+
         .activity-title {
-            flex-grow: 1; /* Allows title to take available space */
-            padding-right: 10px; /* Add some space between title and time */
+            flex-grow: 1; 
+            padding-right: 10px; 
         }
         .activity-time {
-            white-space: nowrap; /* Prevents time from wrapping */
+            white-space: nowrap; 
         }
     </style>
+    <script>
+        function toggleContent(id) {
+            const content = document.getElementById(id);
+            if (content) {
+                if (content.style.display === "none" || content.style.display === "") {
+                    content.style.display = "block";
+                } else {
+                    content.style.display = "none";
+                }
+            }
+        }
+
+        window.onload = () => {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.style.display = 'none';
+            });
+            // Open "Resumen de Sesión" by default
+            const resumenContent = document.getElementById('activity_0_content');
+            if (resumenContent) {
+                resumenContent.style.display = 'block';
+            }
+        };
+    </script>
 </head>
 <body>
     <div class="header">
@@ -89,12 +113,12 @@
         <h2 class="time-title">Tiempo efectivo de clase: 40 minutos</h2>
 
         <!-- Resumen de Sesión -->
-        <details id="activity-0" class="activity">
-            <summary class="banner">
+        <div id="activity-0" class="activity">
+            <div class="banner" onclick="toggleContent('activity_0_content')">
                 <span class="activity-title">📝 Resumen de Sesión</span>
                 <span class="activity-time"></span>
-            </summary>
-            <div class="content">
+            </div>
+            <div id="activity_0_content" class="content" style="display: block;">
                 <table>
                     <tr>
                         <td style="width: 50%; padding: 10px; border-right: 1px solid #ddd;">
@@ -130,17 +154,17 @@
                     </tr>
                 </table>
             </div>
-        </details>
+        </div>
 
         <!-- Desarrollo de la Sesión -->
 
         <!-- Actividad 1: ¡Stand-up de Pruebas! -->
-        <details id="activity-1" class="activity">
-            <summary class="banner">
+        <div id="activity-1" class="activity">
+            <div class="banner" onclick="toggleContent('activity_1_content')">
                  <span class="activity-title">🧪 Actividad 1: ¡Stand-up de Pruebas!</span>
                  <span class="activity-time">⏰ Tiempo: 5 minutos</span>
-            </summary>
-            <div class="content">
+            </div>
+            <div id="activity_1_content" class="content">
                 <table>
                     <tr>
                         <th style="width: 50%;">Acción</th>
@@ -148,8 +172,11 @@
                     </tr>
                     <tr>
                         <td>
-                            <strong>Paso 1 (1 min):</strong> Iniciar la sesión y presentar el objetivo centrado en pruebas.
-                            <br><em>(<strong>Proyectar Diapositiva 1:</strong> Título Sesión 3 + Objetivo: "¡Pruebas de Campo! Objetivo: Validar funciones, corregir errores y asegurar funcionalidad básica").</em>
+                            <strong>Paso 1 (1 min):</strong>
+                            <ul>
+                                <li>Iniciar la sesión y presentar el objetivo centrado en pruebas.</li>
+                                <li><strong>Proyectar Diapositiva 1</strong>.</li>
+                            </ul>
                         </td>
                         <td>
                             "¡Hola, equipos! ¡Bienvenidos a la Sesión 3: Pruebas de Campo! Hoy es el día de poner a prueba a nuestros Robots Héroes. Vamos a verificar si lo que construimos funciona como esperamos, encontraremos errores (¡que siempre aparecen!) y los corregiremos."
@@ -157,9 +184,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <strong>Paso 2 (3 min):</strong> Realizar el "Stand-up de Pruebas", enfocado en las tareas listas para probar.
-                            <br><em>(<strong>Proyectar Diapositiva 2:</strong> Stand-up de Pruebas - Foco en columna "Listo para Probar" 🔬 del Kanban. Pregunta clave: ¿Qué tareas vamos a probar hoy? ¿Cuál es el plan de prueba?).</em>
-                            <br>El Tester de cada equipo lidera esta parte.
+                            <strong>Paso 2 (3 min):</strong>
+                            <ul>
+                                <li>Realizar el "Stand-up de Pruebas", enfocado en las tareas listas para probar.</li>
+                                <li><strong>Proyectar Diapositiva 2</strong>.</li>
+                                <li>El Tester de cada equipo lidera esta parte.</li>
+                            </ul>
                         </td>
                         <td>
                             "Empezamos con nuestro 'Stand-up de Pruebas'. Miren sus tableros Kanban, específicamente la columna <strong class='kanban-icon kanban-test'>🔬 Listo para Probar</strong>. Estas son las tareas que los Ingenieros/as marcaron como completadas en la sesión anterior."
@@ -175,7 +205,10 @@
                     </tr>
                      <tr>
                         <td>
-                            <strong>Paso 3 (1 min):</strong> Confirmar el enfoque y preparar el espacio de pruebas si es necesario.
+                            <strong>Paso 3 (1 min):</strong>
+                            <ul>
+                                <li>Confirmar el enfoque y preparar el espacio de pruebas si es necesario.</li>
+                            </ul>
                         </td>
                         <td>
                             "¡Excelentes planes, Testers! Todos en el equipo ya saben qué se va a probar y cómo. Ingenieros/as, preparen el código; Arquitectos/as T., atentos a los resultados; Testers, preparen el 'campo de pruebas' si necesitan algo específico (líneas, obstáculos...). ¡Listos para la acción!"
@@ -183,15 +216,15 @@
                     </tr>
                 </table>
             </div>
-        </details>
+        </div>
 
         <!-- Actividad 2: ¡Ciclo de Pruebas y Mejoras! -->
-        <details id="activity-2" class="activity">
-            <summary class="banner">
+        <div id="activity-2" class="activity">
+            <div class="banner" onclick="toggleContent('activity_2_content')">
                  <span class="activity-title">🔄 Actividad 2: ¡Ciclo de Pruebas y Mejoras!</span>
                  <span class="activity-time">⏰ Tiempo: 30 minutos</span>
-            </summary>
-            <div class="content">
+            </div>
+            <div id="activity_2_content" class="content">
                 <table>
                     <tr>
                         <th style="width: 50%;">Acción</th>
@@ -199,8 +232,11 @@
                     </tr>
                     <tr>
                         <td>
-                            <strong>Paso 1 (2 min):</strong> Explicar el ciclo iterativo de pruebas y corrección, y el rol de cada miembro.
-                            <br><em>(<strong>Proyectar Diapositiva 3:</strong> Ciclo Pruebas y Mejoras - Diagrama simple: Probar 🔬 -> ¿Funciona? -> Sí -> ¡Listo! ✅ | No -> Corregir ⚙️ -> Probar de nuevo 🔬. Indicar rol principal en cada fase).</em>
+                            <strong>Paso 1 (2 min):</strong>
+                            <ul>
+                                <li>Explicar el ciclo iterativo de pruebas y corrección, y el rol de cada miembro.</li>
+                                <li><strong>Proyectar Diapositiva 3</strong>.</li>
+                            </ul>
                         </td>
                         <td>
                             "¡Muy bien, ahora entramos en el 'Ciclo de Pruebas y Mejoras'! Esto es como un juego de detectives y reparadores:"
@@ -222,13 +258,16 @@
                     </tr>
                     <tr>
                         <td>
-                            <strong>Paso 2 (25 min):</strong> Facilitar el ciclo de pruebas y correcciones en los equipos.
-                            <br><em>(<strong>Proyectar Diapositiva 4:</strong> ¡A Probar y Corregir! - Recordatorio visual del ciclo y los roles. Puede incluir iconos de herramientas: Lupa 🔍, Llave inglesa 🔧, Cerebro 🧠).</em>
-                            <br>Circular activamente, observando las pruebas y la resolución de problemas.
-                            <br>Asegurarse de que los Testers documenten resultados (simple check ✔️/❌ y descripción del fallo).
-                            <br>Verificar que las tareas se muevan correctamente en el Kanban según el resultado de la prueba.
-                            <br>Intervenir para ayudar en diagnósticos complejos o conflictos.
-                            <br>Fomentar la comunicación clara entre Tester e Ingeniero/a sobre los errores.
+                            <strong>Paso 2 (25 min):</strong>
+                            <ul>
+                                <li>Facilitar el ciclo de pruebas y correcciones en los equipos.</li>
+                                <li><strong>Proyectar Diapositiva 4</strong>.</li>
+                                <li>Circular activamente, observando las pruebas y la resolución de problemas.</li>
+                                <li>Asegurarse de que los Testers documenten resultados.</li>
+                                <li>Verificar que las tareas se muevan correctamente en el Kanban.</li>
+                                <li>Intervenir para ayudar en diagnósticos complejos o conflictos.</li>
+                                <li>Fomentar la comunicación clara entre Tester e Ingeniero/a sobre los errores.</li>
+                            </ul>
                         </td>
                         <td>
                             <em>(Mientras circulas):</em>
@@ -243,8 +282,11 @@
                     </tr>
                      <tr>
                         <td>
-                            <strong>Paso 3 (3 min):</strong> Integrar explícitamente el Kanban Flow (Ciclo Iterativo) como resumen del proceso.
-                            <br><em>(<strong>Proyectar Diapositiva 5:</strong> Kanban Flow: Ciclo Iterativo - Mostrar el flujo visual clave: Prueba pasa → tarea a ✅ ¡Listo!; Prueba falla → tarea vuelve a ⚙️ Haciendo y se corrige).</em>
+                            <strong>Paso 3 (3 min):</strong>
+                            <ul>
+                                <li>Integrar explícitamente el Kanban Flow (Ciclo Iterativo) como resumen del proceso.</li>
+                                <li><strong>Proyectar Diapositiva 5</strong>.</li>
+                            </ul>
                         </td>
                         <td>
                             "Recordemos este flujo clave en nuestro Kanban, ¡es el corazón del ciclo de hoy!"
@@ -258,15 +300,15 @@
                     </tr>
                 </table>
             </div>
-        </details>
+        </div>
 
         <!-- Actividad 3: ¡Reporte de Calidad del Héroe! -->
-        <details id="activity-3" class="activity"> <!-- Renumbered from 4 to 3 -->
-            <summary class="banner">
-                 <span class="activity-title">📊 Actividad 3: ¡Reporte de Calidad del Héroe!</span> <!-- Renumbered from 4 to 3 -->
+        <div id="activity-3" class="activity">
+            <div class="banner" onclick="toggleContent('activity_3_content')">
+                 <span class="activity-title">📊 Actividad 3: ¡Reporte de Calidad del Héroe!</span>
                  <span class="activity-time">⏰ Tiempo: 5 minutos</span>
-            </summary>
-            <div class="content">
+            </div>
+            <div id="activity_3_content" class="content">
                 <table>
                      <tr>
                         <th style="width: 50%;">Acción</th>
@@ -274,9 +316,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <strong>Paso 1 (3 min):</strong> Reunir a los equipos para un reporte final del estado de calidad.
-                            <br><em>(<strong>Proyectar Diapositiva 6:</strong> Reporte de Calidad - Preguntas: ¿Qué está en "¡Listo!" ✅? ¿Qué errores críticos quedan (en Haciendo ⚙️ o Por Hacer 💡)? + Kanban final).</em>
-                            <br>Pedir a cada equipo que revise su columna "¡Listo!" y comente los errores pendientes más importantes.
+                            <strong>Paso 1 (3 min):</strong>
+                            <ul>
+                                <li>Reunir a los equipos para un reporte final del estado de calidad.</li>
+                                <li><strong>Proyectar Diapositiva 6</strong>.</li>
+                                <li>Pedir a cada equipo que revise su columna "¡Listo!" y comente los errores pendientes más importantes.</li>
+                            </ul>
                         </td>
                         <td>
                             "¡Equipos, pausa final! Vamos a hacer un rápido 'Reporte de Calidad del Héroe'."
@@ -292,7 +337,10 @@
                     </tr>
                      <tr>
                         <td>
-                            <strong>Paso 2 (2 min):</strong> Cierre de la sesión y preparación para la entrega final.
+                            <strong>Paso 2 (2 min):</strong>
+                            <ul>
+                                <li>Cierre de la sesión y preparación para la entrega final.</li>
+                            </ul>
                         </td>
                         <td>
                             "¡Excelente trabajo de pruebas y correcciones hoy! Han sido verdaderos detectives y reparadores de robots."
@@ -306,7 +354,7 @@
                     </tr>
                 </table>
             </div>
-        </details>
+        </div>
 
     </div> <!-- Fin del container -->
 </body>
